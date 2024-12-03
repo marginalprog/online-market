@@ -6,11 +6,17 @@ export default class DeviceStore {
   constructor() {
     this._types = [
       { id: 1, name: "Холодильники" },
-      { id: 2, name: "Смартфоны" }
+      { id: 2, name: "Смартфоны" },
+      { id: 3, name: "Наушники" },
+      { id: 4, name: "Телевизоры" }
     ];
     this._brands = [
       { id: 1, name: "Samsung" },
-      { id: 1, name: "Apple" }
+      { id: 2, name: "Apple" },
+      { id: 3, name: "Samsung" },
+      { id: 4, name: "Apple" },
+      { id: 5, name: "Samsung" },
+      { id: 6, name: "Apple" }
     ];
     this._devices = [
       {
@@ -48,9 +54,10 @@ export default class DeviceStore {
         reviews: 0,
         img:
           "https://m.media-amazon.com/images/I/61DreMaVplL._AC_UF1000,1000_QL80_.jpg"
-      },
-      { id: 1, name: "Apple" }
+      }
     ];
+    this._selectedType = {};
+    this._selectedBrand = {};
     makeAutoObservable(this);
   }
 
@@ -66,6 +73,14 @@ export default class DeviceStore {
     return this._devices;
   }
 
+  get selectedType() {
+    return this._selectedType;
+  }
+
+  get selectedBrand() {
+    return this._selectedBrand;
+  }
+
   setTypes(types) {
     this._types = types;
   }
@@ -76,5 +91,13 @@ export default class DeviceStore {
 
   setDevices(devices) {
     this._devices = devices;
+  }
+
+  setSelectedType(type) {
+    this._selectedType = type;
+  }
+
+  setSelectedBrand(brand) {
+    this._selectedBrand = brand;
   }
 }
