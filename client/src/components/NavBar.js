@@ -11,7 +11,7 @@ const NavBar = observer(() => {
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
         <NavLink style={{ color: "white" }} to={SHOP_ROUTE}>
-          Goi-store
+          GoiStore
         </NavLink>
         {user.isAuth ? (
           <Nav className="ml-auto" style={{ color: "white" }}>
