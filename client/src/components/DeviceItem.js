@@ -29,6 +29,7 @@ const DeviceItem = ({ device }) => {
         </div>
 
         <div>{device.name}</div>
+        <div>{device.price} руб.</div>
       </Card>
     </Col>
   );

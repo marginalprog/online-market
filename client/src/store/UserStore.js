@@ -4,7 +4,7 @@ export default class UserStore {
   setIsA;
 
   constructor() {
-    this._isAuth = false;
+    this._isAuth = true;
     this._user = {};
     makeAutoObservable(this); // отслеживание переменных в this и обновление mobx
   }
