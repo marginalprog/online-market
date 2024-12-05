@@ -23,7 +23,7 @@ export default class DeviceStore {
         id: 1,
         name: "IPhone 12 Pro",
         price: 85000,
-        rating: 5,
+        rating: 4.6,
         reviews: 0,
         img:
           "https://m.media-amazon.com/images/I/61DreMaVplL._AC_UF1000,1000_QL80_.jpg"
