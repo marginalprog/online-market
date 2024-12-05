@@ -23,7 +23,9 @@ const DeviceItem = ({ device }) => {
         <div className="mt-1 d-flex justify-content-between align-items-center">
           <div className="text-black-50">Apple</div>
           <div className="d-flex align-items-center">
-            <div>{device.rating}</div>
+            <div style={{ marginRight: "3px", marginBottom: "2px" }}>
+              {device.rating}
+            </div>
             <Image src={star} width={15} height={15} className="mb-1" />
           </div>
         </div>
