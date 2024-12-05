@@ -1,6 +1,11 @@
 import React, { useContext } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from "../utils/consts";
+import {
+  ADMIN_ROUTE,
+  CART_ROUTE,
+  LOGIN_ROUTE,
+  SHOP_ROUTE
+} from "../utils/consts";
 import { Context } from "../index";
 import { observer } from "mobx-react-lite";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -24,27 +29,28 @@ const NavBar = observer(() => {
         </NavLink>
         {user.isAuth ? (
           <Nav className="d-flex" style={{ color: "white" }}>
+            {user.isAdmin ? (
+              <Button
+                variant={"outline-light"}
+                onClick={() => history(ADMIN_ROUTE)}
+              >
+                Админ-панель
+              </Button>
+            ) : (
+              <></>
+            )}
             <Button
               variant={"outline-light"}
-              onClick={() => history(ADMIN_ROUTE)}
-              style={{ marginRight: "1rem" }}
+              onClick={() => history(CART_ROUTE)}
+              style={{ marginLeft: "1rem" }}
             >
               <span>Корзина</span>
               <FontAwesomeIcon
                 icon={faShoppingCart}
                 size="lg"
                 className="ms-2"
-                ы
               />
             </Button>
-
-            <Button
-              variant={"outline-light"}
-              onClick={() => history(ADMIN_ROUTE)}
-            >
-              Админ-панель
-            </Button>
-
             <Button
               variant={"outline-light"}
               style={{ marginLeft: "1rem" }}

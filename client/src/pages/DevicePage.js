@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
 import bigStar from "../assets/bigStar.png";
+import { Context } from "../index";
 
 const DevicePage = () => {
   const device = {
@@ -40,6 +41,11 @@ const DevicePage = () => {
       description: "4000 мАч"
     }
   ];
+
+  const { cart } = useContext(Context);
+  const handleAddToCart = () => {
+    cart.addToCart(device);
+  };
 
   return (
     <Container className="mt-3">
@@ -94,7 +100,9 @@ const DevicePage = () => {
             }}
           >
             <h3>От: {device.price} руб.</h3>
-            <Button variant={"outline-dark"}>Добавить в корзину</Button>
+            <Button variant={"outline-dark"} onClick={handleAddToCart}>
+              Добавить в корзину
+            </Button>
           </Card>
         </Col>
         <Col xs={4} sm={4} md={4} lg={4} className="d-none d-md-flex">

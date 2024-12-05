@@ -14,12 +14,15 @@ import DevicePage from "./pages/DevicePage";
 
 export const authRoutes = [
   {
-    path: ADMIN_ROUTE,
-    Component: Admin
-  },
-  {
     path: CART_ROUTE,
     Component: Cart
+  }
+];
+
+export const adminRoutes = [
+  {
+    path: ADMIN_ROUTE,
+    Component: Admin
   }
 ];
 
