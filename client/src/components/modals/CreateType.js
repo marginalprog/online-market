@@ -3,13 +3,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 const CreateType = ({ show, onHide }) => {
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      backdrop="static"
-      keyboard={false}
-      centered
-    >
+    <Modal show={show} onHide={onHide} backdrop="static" centered>
       <Modal.Header closeButton>
         <Modal.Title>Добавить новый тип</Modal.Title>
       </Modal.Header>

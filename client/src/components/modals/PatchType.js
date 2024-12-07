@@ -3,13 +3,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 const PatchType = ({ show, onHide }) => {
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      backdrop="static"
-      keyboard={false}
-      centered
-    >
+    <Modal show={show} onHide={onHide} backdrop="static" centered>
       <Modal.Header closeButton>
         <Modal.Title>Изменить тип</Modal.Title>
       </Modal.Header>

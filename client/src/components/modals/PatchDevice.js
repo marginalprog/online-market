@@ -21,13 +21,7 @@ const PatchDevice = ({ show, onHide }) => {
   // };
 
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      backdrop="static"
-      keyboard={false}
-      centered
-    >
+    <Modal show={show} onHide={onHide} backdrop="static" centered>
       <Modal.Header closeButton>
         <Modal.Title>Изменить девайс</Modal.Title>
       </Modal.Header>

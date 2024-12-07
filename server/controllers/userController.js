@@ -31,10 +31,10 @@ class UserController {
 
     const hashPassword = await bcrypt.hash(password, 5);
     const user = await User.create({ email, role, password: hashPassword });
-    const cart = await Cart.create({ userId: user.id });
+    await Cart.create({ userId: user.id });
     const token = generateJwt(user.id, user.email, user.role);
 
-    return res.json(token);
+    return res.json({ token });
   }
 
   async login(req, res, next) {
@@ -53,13 +53,13 @@ class UserController {
 
     const token = generateJwt(user.id, user.email, user.role);
 
-    return res.json(token);
+    return res.json({ token });
   }
 
   async check(req, res, next) {
     const token = generateJwt(req.user.id, req.user.email, req.user.role);
 
-    return res.json(token);
+    return res.json({ token });
   }
 }
 

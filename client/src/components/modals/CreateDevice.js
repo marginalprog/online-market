@@ -16,13 +16,7 @@ const CreateDevice = ({ show, onHide }) => {
   };
 
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      backdrop="static"
-      keyboard={true}
-      centered
-    >
+    <Modal show={show} onHide={onHide} backdrop="static" centered>
       <Modal.Header closeButton>
         <Modal.Title>Добавить новое устройство</Modal.Title>
       </Modal.Header>
