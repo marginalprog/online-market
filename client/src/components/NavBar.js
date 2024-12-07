@@ -14,9 +14,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NavBar = observer(() => {
   const { user } = useContext(Context);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
-  console.log(history);
+  const logOut = () => {
+    user.setUser({});
+    user.setIsAuth(false);
+    user.setIsAdmin(false);
+  };
 
   return (
     <Navbar bg="dark" data-bs-theme="dark">
@@ -32,7 +36,7 @@ const NavBar = observer(() => {
             {user.isAdmin ? (
               <Button
                 variant={"outline-light"}
-                onClick={() => history(ADMIN_ROUTE)}
+                onClick={() => navigate(ADMIN_ROUTE)}
               >
                 Админ-панель
               </Button>
@@ -41,7 +45,7 @@ const NavBar = observer(() => {
             )}
             <Button
               variant={"outline-light"}
-              onClick={() => history(CART_ROUTE)}
+              onClick={() => navigate(CART_ROUTE)}
               style={{ marginLeft: "1rem" }}
             >
               <span>Корзина</span>
@@ -55,7 +59,10 @@ const NavBar = observer(() => {
               variant={"outline-light"}
               style={{ marginLeft: "1rem" }}
               className=""
-              onClick={() => history(LOGIN_ROUTE)}
+              onClick={() => {
+                logOut();
+                navigate(LOGIN_ROUTE);
+              }}
             >
               Выйти
             </Button>
@@ -64,7 +71,7 @@ const NavBar = observer(() => {
           <Nav className="ml-auto" style={{ color: "white" }}>
             <Button
               variant={"outline-light"}
-              onClick={() => user.setIsAuth(true)}
+              onClick={() => navigate(LOGIN_ROUTE)}
             >
               Авторизация
             </Button>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { SHOP_ROUTE } from "../utils/consts";
 
 const Cart = observer(() => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { cart } = useContext(Context);
 
   if (cart.items.length === 0) {
@@ -20,7 +20,7 @@ const Cart = observer(() => {
           <hr />
           <Button
             variant="dark"
-            onClick={() => history(SHOP_ROUTE)}
+            onClick={() => navigate(SHOP_ROUTE)}
             className="mt-2"
             style={{ minWidth: "60%", minHeight: "40px", fontSize: 18 }}
           >

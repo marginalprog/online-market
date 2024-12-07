@@ -3,13 +3,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 const DeleteType = ({ show, onHide }) => {
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      backdrop="static"
-      keyboard={false}
-      centered
-    >
+    <Modal show={show} onHide={onHide} backdrop="static" centered>
       <Modal.Header closeButton>
         <Modal.Title>Удалить тип</Modal.Title>
       </Modal.Header>

@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { DEVICE_ROUTE } from "../utils/consts";
 
 const DeviceItem = ({ device }) => {
-  const history = useNavigate();
+  const navigate = useNavigate();
 
-  console.log(history);
+  console.log(navigate);
 
   return (
     <Col
@@ -16,7 +16,7 @@ const DeviceItem = ({ device }) => {
       md={4}
       lg={3}
       className="mt-3 mb-1 d-flex justify-content-center"
-      onClick={() => history(DEVICE_ROUTE + "/" + device.id)}
+      onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
     >
       <Card style={{ width: 150, cursor: "pointer" }} border={"light"}>
         <Image width={150} height={150} src={device.image} />
