@@ -1,46 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
-import bigStar from "../assets/bigStar.png";
 import { Context } from "../index";
+import { useParams } from "react-router-dom";
+import { fetchOneDevice } from "../http/deviceApi";
+import star from "../assets/star.png";
+import { pluralize } from "numeralize-ru";
 
 const DevicePage = () => {
-  const device = {
-    id: 1,
-    name: "IPhone 12 Pro",
-    price: 85000,
-    rating: 5,
-    reviews: 0,
-    img:
-      "https://m.media-amazon.com/images/I/61DreMaVplL._AC_UF1000,1000_QL80_.jpg"
-  };
+  const [device, setDevice] = useState({ info: [] });
+  const { id } = useParams();
+  const reviewsText = pluralize(device.reviews, "отзыв", "отзыва", "отзывов");
 
-  const description = [
-    {
-      id: 1,
-      title: "Оперативная память",
-      description: "5 GB"
-    },
-    {
-      id: 2,
-      title: "Камера",
-      description: "12 MP"
-    },
-    {
-      id: 3,
-      title: "Процессор",
-      description: "Apple M1"
-    },
-    {
-      id: 4,
-      title: "Ядра процессора",
-      description: "4"
-    },
-    {
-      id: 5,
-      title: "Аккумулятор",
-      description: "4000 мАч"
-    }
-  ];
+  useEffect(() => {
+    fetchOneDevice(id).then(data => {
+      setDevice(data);
+    });
+  }, []);
 
   const { cart } = useContext(Context);
   const handleAddToCart = () => {
@@ -50,6 +25,7 @@ const DevicePage = () => {
   return (
     <Container className="mt-3">
       <Row>
+        {/* изображение товара */}
         <Col
           xs={12}
           sm={6}
@@ -57,31 +33,56 @@ const DevicePage = () => {
           lg={4}
           className="d-flex align-items-center justify-content-center"
         >
-          <Image width={200} height={260} src={device.img} />
+          <Image
+            width={260}
+            height={260}
+            src={process.env.REACT_APP_API_URL + device.img}
+          />
         </Col>
+
+        {/* название товара */}
         <Col
           xs={12}
-          sm={4}
+          sm={6}
           md={4}
           lg={4}
-          className="d-flex align-items-center justify-content-center"
+          className="d-flex align-items-center justify-content-center mt-3"
         >
-          <Row className="d-flex flex-column align-items-center">
-            <h2>{device.name}</h2>
+          <Row
+            className="d-flex flex-column align-items-center text-center p-3"
+            style={{
+              borderRadius: "10px",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)"
+            }}
+          >
+            <h2 style={{ color: "#333", marginBottom: "10px" }}>
+              {device.name}
+            </h2>
             <div
               className="d-flex align-items-center justify-content-center"
-              style={{
-                background: `url(${bigStar}) no-repeat center center`,
-                width: 200,
-                height: 200,
-                backgroundSize: "cover",
-                fontSize: 64
-              }}
+              style={{ fontSize: "16px" }}
             >
-              {device.rating}
+              <Image
+                src={star}
+                width={20}
+                height={20}
+                style={{ marginRight: "5px" }}
+              />
+              <div className="text-black-50">
+                {device.rating % 1 === 0
+                  ? Math.round(device.rating)
+                  : device.rating}
+                <span
+                  style={{ color: "#999", fontSize: "16px", marginLeft: "5px" }}
+                >
+                  • {device.reviews} {reviewsText}
+                </span>
+              </div>
             </div>
           </Row>
         </Col>
+
+        {/* адаптивная форма с ценой №1 */}
         <Col
           xs={12}
           sm={12}
@@ -90,52 +91,115 @@ const DevicePage = () => {
           className="d-flex flex-column align-items-center justify-content-center d-md-none mt-3"
         >
           <Card
-            className="d-flex flex-column align-items-center justify-content-around"
+            className="d-flex flex-column align-items-center justify-content-center"
             style={{
-              width: 300,
-              height: 300,
-              fontSize: 32,
-              border: "3px solid lightgray",
-              backgroundColor: "white"
+              width: 250,
+              height: 180,
+              padding: 20,
+              borderRadius: 10,
+              border: "0px",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              position: "relative"
             }}
           >
-            <h3>От: {device.price} руб.</h3>
-            <Button variant={"outline-dark"} onClick={handleAddToCart}>
+            <h5
+              style={{ color: "#333", marginBottom: 10, textAlign: "center" }}
+            >
+              От: {device.price} руб.
+            </h5>
+            <Button
+              variant="dark"
+              style={{ fontSize: 16 }}
+              onClick={handleAddToCart}
+            >
               Добавить в корзину
             </Button>
+            <span
+              style={{
+                fontSize: "12px",
+                position: "absolute",
+                bottom: 10
+              }}
+            >
+              Доставим <span style={{ fontWeight: "bold" }}>завтра</span>
+            </span>
           </Card>
         </Col>
+        {/* адаптивная форма с ценой №2 */}
         <Col xs={4} sm={4} md={4} lg={4} className="d-none d-md-flex">
           <Card
-            className="d-flex flex-column align-items-center justify-content-around"
+            className="d-flex flex-column align-items-center justify-content-center"
             style={{
-              width: 300,
-              height: 300,
-              fontSize: 32,
-              border: "3px solid lightgray",
-              backgroundColor: "white"
+              width: 250,
+              padding: 20,
+              borderRadius: 10,
+              border: "0px",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "white",
+              position: "relative"
             }}
           >
-            <h3>От: {device.price} руб.</h3>
-            <Button variant={"outline-dark"}>Добавить в корзину</Button>
+            <h5
+              style={{ color: "#333", marginBottom: 10, textAlign: "center" }}
+            >
+              От: {device.price} руб.
+            </h5>
+            <Button
+              variant="dark"
+              style={{ fontSize: 16 }}
+              onClick={handleAddToCart}
+            >
+              Добавить в корзину
+            </Button>
+            <span
+              style={{
+                fontSize: "12px",
+                position: "absolute",
+                bottom: 10
+              }}
+            >
+              Доставим <span style={{ fontWeight: "bold" }}>завтра</span>
+            </span>
           </Card>
         </Col>
       </Row>
 
+      {/* характеристики */}
       <Row lg={12} className="d-flex flex-column mt-2">
         <div>
-          <h1>Характеристики</h1>
-          {description.map((info, index) => (
-            <Row
+          <Col className="mb-4">
+            <h3 style={{ color: "#333", textAlign: "center" }}>
+              Характеристики
+            </h3>
+          </Col>
+          {device.info.map((info, index) => (
+            <Card
               key={info.id}
-              style={{
-                background: index % 2 === 0 ? "lightgray" : "transparent",
-                padding: 5
-              }}
-              className="mt-1"
+              className="mb-2 p-1 shadow-sm"
+              style={{ borderRadius: "10px", border: "1px solid #e0e0e0" }}
             >
-              {info.title}: {info.description}
-            </Row>
+              <Card.Body className="d-flex justify-content-between">
+                <Card.Title
+                  className="mb-0"
+                  style={{
+                    fontSize: "16px",
+                    color: "#555"
+                  }}
+                >
+                  {info.title}
+                </Card.Title>
+                <Card.Text
+                  className="mb-0"
+                  style={{
+                    fontSize: "16px",
+                    color: "#777"
+                  }}
+                >
+                  {info.description}
+                </Card.Text>
+              </Card.Body>
+            </Card>
           ))}
         </div>
       </Row>

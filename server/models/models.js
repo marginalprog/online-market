@@ -29,7 +29,7 @@ const Device = sequelize.define('device', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false, unique: true },
   price: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-  rating: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0 },
+  rating: { type: DataTypes.DECIMAL(10, 1), defaultValue: 0 },
   reviews: { type: DataTypes.INTEGER, defaultValue: 0 },
   img: { type: DataTypes.STRING, allowNull: false },
 });

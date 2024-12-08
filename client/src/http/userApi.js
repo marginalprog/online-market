@@ -2,10 +2,6 @@ import { $authHost, $host } from "./index";
 import { jwtDecode } from "jwt-decode";
 
 export const registration = async (email, password) => {
-  if (!email || !password) {
-    throw new Error("Email and password must be provided");
-  }
-
   const { data } = await $host.post(`api/v1/user/registration`, {
     email,
     password
