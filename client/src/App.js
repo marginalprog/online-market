@@ -6,7 +6,6 @@ import NavBar from "./components/NavBar";
 import { observer } from "mobx-react-lite";
 import { Context } from "./index";
 import { check } from "./http/userApi";
-import { Spinner } from "react-bootstrap";
 
 const App = observer(() => {
   const { user } = useContext(Context);
@@ -14,22 +13,27 @@ const App = observer(() => {
 
   useEffect(() => {
     setTimeout(() => {
-      check()
-        .then(data => {
-          user.setUser(true);
-          user.setIsAuth(true);
-        })
-        .finally(() => setLoading(false));
+      if (localStorage.getItem("token")) {
+        check()
+          .then(data => {
+            user.setUser(true);
+            user.setIsAuth(true);
+            user.setIsAdmin(data.role === "ADMIN");
+          })
+          .catch(error => {
+            console.error("Failed to check authentication:", error);
+          })
+          .finally(() => setLoading(false));
+      } else {
+        setLoading(false);
+      }
     }, 1500);
   }, []);
 
   if (loading) {
     return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh", width: "100vw" }}
-      >
-        <Spinner animation={"grow"} />
+      <div className="jewish-loader-container">
+        <div className="jewish-loader"></div>
       </div>
     );
   }

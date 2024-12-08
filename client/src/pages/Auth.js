@@ -11,6 +11,7 @@ const Auth = observer(() => {
   const location = useLocation();
   const isLogin = location.pathname === LOGIN_ROUTE;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +27,7 @@ const Auth = observer(() => {
 
         return;
       }
+      setLoading(true);
 
       let data;
 
@@ -34,9 +36,6 @@ const Auth = observer(() => {
       } else {
         data = await registration(email, password);
       }
-      console.error(`data: ${data.role}`);
-      console.error(`user: ${user}`);
-
       user.setUser(user);
       user.setIsAuth(true);
 
@@ -59,6 +58,8 @@ const Auth = observer(() => {
         setModalMessage("Пользователя с таким email не существует");
         setShowModal(true);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,53 +70,58 @@ const Auth = observer(() => {
       className="d-flex justify-content-center align-items-center"
       style={{ height: window.innerHeight - 55 }}
     >
-      <Card style={{ width: 600 }} className="p-5">
-        <h2 className="m-auto"> {isLogin ? "Авторизация" : "Регистрация"}</h2>
-        <Form className="d-flex flex-column">
-          <Form.Control
-            className="mt-3"
-            placeholder="Введите email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-          <Form.Control
-            className="mt-3"
-            placeholder="Введите пароль"
-            value={password}
-            onChange={p => setPassword(p.target.value)}
-            type="password"
-          />
-          {isLogin ? (
-            <div
-              className="d-flex justify-content-lg-start mt-3"
-              style={{ fontSize: "15px" }}
+      {loading ? (
+        <div className="jewish-loader-container">
+          <div className="jewish-loader"></div>
+        </div>
+      ) : (
+        <Card style={{ width: 600 }} className="p-5">
+          <h2 className="m-auto"> {isLogin ? "Авторизация" : "Регистрация"}</h2>
+          <Form className="d-flex flex-column">
+            <Form.Control
+              className="mt-3"
+              placeholder="Введите email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+            <Form.Control
+              className="mt-3"
+              placeholder="Введите пароль"
+              value={password}
+              onChange={p => setPassword(p.target.value)}
+              type="password"
+            />
+            {isLogin ? (
+              <div
+                className="d-flex justify-content-lg-start mt-3"
+                style={{ fontSize: "15px" }}
+              >
+                Нет аккаунта?
+                <NavLink style={{ marginLeft: "3px" }} to={REGISTRATION_ROUTE}>
+                  Регистрация
+                </NavLink>
+              </div>
+            ) : (
+              <div
+                className="d-flex justify-content-lg-start mt-3"
+                style={{ fontSize: "15px" }}
+              >
+                Есть аккаунт?
+                <NavLink style={{ marginLeft: "3px" }} to={LOGIN_ROUTE}>
+                  Войти
+                </NavLink>
+              </div>
+            )}
+            <Button
+              className="mt-3 align-self-center"
+              variant={"outline-success"}
+              onClick={click}
             >
-              Нет аккаунта?
-              <NavLink style={{ marginLeft: "3px" }} to={REGISTRATION_ROUTE}>
-                Регистрация
-              </NavLink>
-            </div>
-          ) : (
-            <div
-              className="d-flex justify-content-lg-start mt-3"
-              style={{ fontSize: "15px" }}
-            >
-              Есть аккаунт?
-              <NavLink style={{ marginLeft: "3px" }} to={LOGIN_ROUTE}>
-                Войти
-              </NavLink>
-            </div>
-          )}
-          <Button
-            className="mt-3 align-self-center"
-            variant={"outline-success"}
-            onClick={click}
-          >
-            {isLogin ? "Войти" : "Регистрация"}
-          </Button>
-        </Form>
-      </Card>
-
+              {isLogin ? "Войти" : "Регистрация"}
+            </Button>
+          </Form>
+        </Card>
+      )}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Ошибка</Modal.Title>
