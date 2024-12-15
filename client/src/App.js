@@ -25,6 +25,7 @@ const App = observer(() => {
           })
           .finally(() => setLoading(false));
       } else {
+        console.log("No token found");
         setLoading(false);
       }
     }, 1500);

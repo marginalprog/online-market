@@ -44,6 +44,7 @@ const NavBar = observer(() => {
             ) : (
               <></>
             )}
+
             <Button
               variant={"outline-light"}
               onClick={() => navigate(CART_ROUTE)}
@@ -56,6 +57,7 @@ const NavBar = observer(() => {
                 className="ms-2"
               />
             </Button>
+
             <Button
               variant={"outline-light"}
               style={{ marginLeft: "1rem" }}
@@ -70,6 +72,19 @@ const NavBar = observer(() => {
           </Nav>
         ) : (
           <Nav className="ml-auto" style={{ color: "white" }}>
+            <Button
+              variant={"outline-light"}
+              onClick={() => navigate(CART_ROUTE)}
+              style={{ marginLeft: "1rem", marginRight: "1rem" }}
+            >
+              <span>Корзина</span>
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                size="lg"
+                className="ms-2"
+              />
+            </Button>
+
             <Button
               variant={"outline-light"}
               onClick={() => navigate(LOGIN_ROUTE)}
