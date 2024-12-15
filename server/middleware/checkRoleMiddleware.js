@@ -8,7 +8,7 @@ module.exports = function(availableRoles) {
 
       console.log(`availableRoles is ${availableRoles}`);
       console.log(`userRole is ${userRole}`);
-      if (userRole in availableRoles) {
+      if (!availableRoles.includes(userRole)) {
         return next(
           ApiError.forbidden(`There is no access for role ${userRole}`)
         );

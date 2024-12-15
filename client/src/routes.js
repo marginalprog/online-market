@@ -12,13 +12,6 @@ import Auth from "./pages/Auth";
 import Cart from "./pages/Cart";
 import DevicePage from "./pages/DevicePage";
 
-export const authRoutes = [
-  {
-    path: CART_ROUTE,
-    Component: Cart
-  }
-];
-
 export const adminRoutes = [
   {
     path: ADMIN_ROUTE,
@@ -30,6 +23,10 @@ export const publicRoutes = [
   {
     path: SHOP_ROUTE,
     Component: Shop
+  },
+  {
+    path: CART_ROUTE,
+    Component: Cart
   },
   {
     path: LOGIN_ROUTE,
