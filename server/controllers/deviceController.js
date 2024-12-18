@@ -69,13 +69,26 @@ class DeviceController {
       if (info) {
         try {
           info = JSON.parse(info);
-          info.forEach(i =>
+
+          console.log('Parsed info:', info);
+
+          if (!Array.isArray(info)) {
+            throw new Error('Info must be an array');
+          }
+
+          info.forEach(item => {
+            if (!item.title || !item.description) {
+              throw new Error(
+                'Each info item must have "title" and "description"'
+              );
+            }
+
             DeviceInfo.create({
-              title: i.title,
-              description: i.description,
+              title: item.title,
+              description: item.description,
               deviceId: device.id,
-            })
-          );
+            });
+          });
         } catch (err) {
           return next(ApiError.badRequest('Invalid info format'));
         }

@@ -18,7 +18,7 @@ const DeviceItem = ({ device }) => {
       className="mt-3 mb-1 d-flex justify-content-center"
       onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
     >
-      <Card style={{ width: 150, cursor: "pointer" }} border={"light"}>
+      <Card style={{ width: 150, cursor: "pointer", border: "none" }}>
         <Image
           width={150}
           height={150}

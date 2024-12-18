@@ -10,8 +10,9 @@ import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import PatchDevice from "../components/modals/PatchDevice";
 import PatchBrand from "../components/modals/PatchBrand";
 import PatchType from "../components/modals/PatchType";
+import { observer } from "mobx-react-lite";
 
-const Admin = () => {
+const Admin = observer(() => {
   const [modals, setModals] = useState({
     createType: false,
     createBrand: false,
@@ -147,6 +148,6 @@ const Admin = () => {
       />
     </Container>
   );
-};
+});
 
 export default Admin;

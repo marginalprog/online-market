@@ -52,12 +52,13 @@ export const fetchOneBrand = async id => {
   return data.rows;
 };
 
-export const createDevice = async brand => {
-  if (!brand) {
-    throw new Error("Brand must be provided");
+export const createDevice = async deviceData => {
+  if (!deviceData) {
+    throw new Error("Data must be provided");
   }
+  console.log(deviceData);
 
-  const { data } = await $authHost.post(`api/v1/device`, brand);
+  const { data } = await $authHost.post(`api/v1/device`, deviceData);
 
   return data;
 };
