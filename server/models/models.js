@@ -1,5 +1,5 @@
 const sequelize = require('../db');
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 const User = sequelize.define('user', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -32,16 +32,46 @@ const Device = sequelize.define('device', {
   rating: { type: DataTypes.DECIMAL(10, 1), defaultValue: 0 },
   reviews: { type: DataTypes.INTEGER, defaultValue: 0 },
   img: { type: DataTypes.STRING, allowNull: false },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
 });
 
 const Type = sequelize.define('type', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false, unique: true },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
 });
 
 const Brand = sequelize.define('brand', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: true, unique: true },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
 });
 
 const Rating = sequelize.define(
@@ -59,16 +89,38 @@ const Rating = sequelize.define(
     },
     userId: { type: DataTypes.INTEGER, allowNull: false },
     deviceId: { type: DataTypes.INTEGER, allowNull: false },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
   },
+
   { indexes: [{ unique: true, fields: ['userId', 'deviceId'] }] }
 );
 
+// todo: сделать хранение свойств девайса в json-формате (сейчас не очень производительное mvp)
 const DeviceInfo = sequelize.define('device_info', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  title: { type: DataTypes.INTEGER, allowNull: false },
+  title: { type: DataTypes.STRING, allowNull: true },
   description: {
-    type: DataTypes.INTEGER,
-    allowNull: false, // fixme: wrong description datatypes
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
 });
 
