@@ -36,6 +36,6 @@ export default class CartStore {
   }
 
   clearCart() {
-    this._items = [];
+    this._items.length = 0;
   }
 }
