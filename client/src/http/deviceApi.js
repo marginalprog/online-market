@@ -13,15 +13,11 @@ export const createType = async type => {
 export const fetchTypes = async () => {
   const { data } = await $host.get(`api/v1/type`);
 
-  console.log(data);
-
   return data.rows;
 };
 
 export const fetchOneType = async id => {
   const { data } = await $host.get(`api/v1/type/${id}`);
-
-  console.log(data);
 
   return data.rows;
 };
@@ -39,15 +35,11 @@ export const createBrand = async brand => {
 export const fetchBrands = async () => {
   const { data } = await $host.get(`api/v1/brand`);
 
-  console.log(data);
-
   return data.rows;
 };
 
 export const fetchOneBrand = async id => {
   const { data } = await $host.get(`api/v1/brand/${id}`);
-
-  console.log(data);
 
   return data.rows;
 };
@@ -56,25 +48,27 @@ export const createDevice = async deviceData => {
   if (!deviceData) {
     throw new Error("Data must be provided");
   }
-  console.log(deviceData);
 
   const { data } = await $authHost.post(`api/v1/device`, deviceData);
 
   return data;
 };
 
-export const fetchDevices = async () => {
-  const { data } = await $host.get(`api/v1/device`);
+export const fetchDevices = async (typeId, brandId, page, limit = 5) => {
+  const { data } = await $host.get(`api/v1/device`, {
+    params: {
+      typeId,
+      brandId,
+      page,
+      limit
+    }
+  });
 
-  console.log(data);
-
-  return data.rows;
+  return data;
 };
 
 export const fetchOneDevice = async id => {
   const { data } = await $host.get(`api/v1/device/${id}`);
-
-  console.log(data);
 
   return data;
 };

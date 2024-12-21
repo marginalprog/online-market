@@ -13,7 +13,8 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NavBar = observer(() => {
-  const { user } = useContext(Context);
+  const { user, cart } = useContext(Context);
+
   const navigate = useNavigate();
 
   const logOut = () => {
@@ -51,6 +52,7 @@ const NavBar = observer(() => {
               style={{ marginLeft: "1rem" }}
             >
               <span>Корзина</span>
+              {cart.totalItems > 0 ? <span> {cart.totalItems} </span> : <></>}
               <FontAwesomeIcon
                 icon={faShoppingCart}
                 size="lg"

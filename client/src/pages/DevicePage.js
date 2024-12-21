@@ -79,6 +79,15 @@ const DevicePage = () => {
                 </span>
               </div>
             </div>
+            <div className="mt-3">
+              <Button
+                variant="outline-dark"
+                style={{ fontSize: 16 }}
+                onClick={handleAddToCart}
+              >
+                Оставить отзыв
+              </Button>
+            </div>
           </Row>
         </Col>
 

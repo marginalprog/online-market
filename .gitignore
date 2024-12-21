@@ -7,3 +7,7 @@
 sshgit
 sshgit.pub
 client/.env
+
+devicesPhotos/.DS_Store
+
+.DS_Store
