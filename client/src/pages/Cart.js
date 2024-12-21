@@ -5,10 +5,18 @@ import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import { SHOP_ROUTE } from "../utils/consts";
 import { FaTimes } from "react-icons/fa";
+import { pluralize } from "numeralize-ru";
 
 const Cart = observer(() => {
   const navigate = useNavigate();
   const { cart } = useContext(Context);
+
+  const cartDevicesText = pluralize(
+    cart.totalItems,
+    "товар",
+    "товара",
+    "товаров"
+  );
 
   if (cart.items.length === 0) {
     return (
@@ -55,7 +63,7 @@ const Cart = observer(() => {
             marginRight: "30px" // Отступ справа
           }}
         >
-          <ListGroup style={{ width: "100%" }}>
+          <ListGroup style={{ width: "80%" }}>
             {cart.items.map(item => (
               <ListGroup.Item
                 key={item.id}
@@ -104,6 +112,9 @@ const Cart = observer(() => {
                   <Col
                     xs={2}
                     className="d-flex align-items-center justify-content-center"
+                    style={{
+                      whiteSpace: "nowrap"
+                    }}
                   >
                     {item.price * item.quantity} руб.
                   </Col>
@@ -149,7 +160,7 @@ const Cart = observer(() => {
                 minWidth: "250px"
               }}
             >
-              Итог: {cart.totalPrice} руб. ({cart.totalItems} товаров)
+              Итог: {cart.totalPrice} руб. ({cart.totalItems} {cartDevicesText})
             </h5>
             <Button
               variant="outline-dark"
