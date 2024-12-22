@@ -33,7 +33,7 @@ const CreateBrand = ({ show, onHide }) => {
         <Form>
           <Form.Control
             value={value}
-            onChange={type => setValue(type.target.value)}
+            onChange={brand => setValue(brand.target.value)}
             placeholder={"Введите название бренда"}
           />
         </Form>

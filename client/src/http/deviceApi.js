@@ -32,6 +32,36 @@ export const createBrand = async brand => {
   return data;
 };
 
+export const deleteBrand = async id => {
+  if (!id) {
+    throw new Error("BrandId must be provided");
+  }
+
+  const { data } = await $authHost.delete(`api/v1/brand/${id}`);
+
+  return data;
+};
+
+export const deleteType = async id => {
+  if (!id) {
+    throw new Error("TypeId must be provided");
+  }
+
+  const { data } = await $authHost.delete(`api/v1/type/${id}`);
+
+  return data;
+};
+
+export const deleteDevice = async id => {
+  if (!id) {
+    throw new Error("DeviceId must be provided");
+  }
+
+  const { data } = await $authHost.delete(`api/v1/device/${id}`);
+
+  return data;
+};
+
 export const fetchBrands = async () => {
   const { data } = await $host.get(`api/v1/brand`);
 

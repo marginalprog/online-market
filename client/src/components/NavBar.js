@@ -63,7 +63,6 @@ const NavBar = observer(() => {
             <Button
               variant={"outline-light"}
               style={{ marginLeft: "1rem" }}
-              className=""
               onClick={() => {
                 logOut();
                 navigate(LOGIN_ROUTE);
@@ -80,6 +79,7 @@ const NavBar = observer(() => {
               style={{ marginLeft: "1rem", marginRight: "1rem" }}
             >
               <span>Корзина</span>
+              {cart.totalItems > 0 ? <span> {cart.totalItems} </span> : <></>}
               <FontAwesomeIcon
                 icon={faShoppingCart}
                 size="lg"

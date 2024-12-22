@@ -9,6 +9,7 @@ import {
   fetchTypes
 } from "../../http/deviceApi";
 import ModalError from "./ModalError";
+import ModalInfo from "./ModalInfo";
 
 const CreateDevice = observer(({ show, onHide }) => {
   const { device } = useContext(Context);
@@ -19,6 +20,8 @@ const CreateDevice = observer(({ show, onHide }) => {
   const [info, setInfo] = useState([]);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showInfo, setShowInfo] = useState(false);
+  const [infoMessage, setInfoMessage] = useState("");
 
   useEffect(() => {
     fetchTypes().then(data => device.setTypes(data));
@@ -60,10 +63,31 @@ const CreateDevice = observer(({ show, onHide }) => {
 
     formData.append("info", JSON.stringify(info));
 
-    createDevice(formData).then(data => onHide());
+    createDevice(formData)
+      .then(data => {
+        setInfoMessage(`Девайс "${name}" создан`);
+        setShowInfo(true);
+      })
+      .catch(error => {
+        console.log(error);
+        if (error.message.includes("400")) {
+          setErrorMessage(
+            `Слишком большая цена или название. Максимум 8 и 255 знаков`
+          );
+          setShowError(true);
+        } else {
+          setErrorMessage(`${error.message}`);
+          setShowError(true);
+        }
+      });
   };
 
   const handleCloseError = () => setShowError(false);
+
+  const handleCloseInfo = () => {
+    onHide();
+    setShowInfo(false);
+  };
 
   const selectFile = event => {
     setFile(event.target.files[0]);
@@ -181,6 +205,11 @@ const CreateDevice = observer(({ show, onHide }) => {
         show={showError}
         errorMessage={errorMessage}
         handleCloseError={handleCloseError}
+      />
+      <ModalInfo
+        show={showInfo}
+        infoMessage={infoMessage}
+        handleCloseInfo={handleCloseInfo}
       />
     </Modal>
   );

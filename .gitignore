@@ -11,3 +11,5 @@ client/.env
 devicesPhotos/.DS_Store
 
 .DS_Store
+/server/static/*
+!/server/static/.gitignore
