@@ -7,19 +7,21 @@ import DeleteType from "../components/modals/DeleteType";
 import DeleteBrand from "../components/modals/DeleteBrand";
 import DeleteDevice from "../components/modals/DeleteDevice";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import PatchDevice from "../components/modals/PatchDevice";
-import PatchBrand from "../components/modals/PatchBrand";
-import PatchType from "../components/modals/PatchType";
 import { observer } from "mobx-react-lite";
+import UpdateBrand from "../components/modals/UpdateBrand";
+import UpdateType from "../components/modals/UpdateType";
+import UpdateDevice from "../components/modals/UpdateDevice";
 
 const Admin = observer(() => {
+  // const { device } = useContext(Context);
+  // fixme: обновление полей бренда и типа при открытии форм
   const [modals, setModals] = useState({
     createType: false,
     createBrand: false,
     createDevice: false,
-    patchType: false,
-    patchBrand: false,
-    patchDevice: false,
+    updateType: false,
+    updateBrand: false,
+    updateDevice: false,
     deleteType: false,
     deleteBrand: false,
     deleteDevice: false
@@ -57,17 +59,17 @@ const Admin = observer(() => {
           buttons: [
             {
               text: "Изменить название типа",
-              action: () => toggleModal("patchType"),
+              action: () => toggleModal("updateType"),
               icon: <FaEdit />
             },
             {
               text: "Изменить название бренда",
-              action: () => toggleModal("patchBrand"),
+              action: () => toggleModal("updateBrand"),
               icon: <FaEdit />
             },
             {
               text: "Изменить параметры устройства",
-              action: () => toggleModal("patchDevice"),
+              action: () => toggleModal("updateDevice"),
               icon: <FaEdit />
             }
           ]
@@ -134,17 +136,17 @@ const Admin = observer(() => {
         show={modals.deleteDevice}
         onHide={() => toggleModal("deleteDevice")}
       />
-      <PatchType
-        show={modals.patchType}
-        onHide={() => toggleModal("patchType")}
+      <UpdateType
+        show={modals.updateType}
+        onHide={() => toggleModal("updateType")}
       />{" "}
-      <PatchBrand
-        show={modals.patchBrand}
-        onHide={() => toggleModal("patchBrand")}
+      <UpdateBrand
+        show={modals.updateBrand}
+        onHide={() => toggleModal("updateBrand")}
       />{" "}
-      <PatchDevice
-        show={modals.patchDevice}
-        onHide={() => toggleModal("patchDevice")}
+      <UpdateDevice
+        show={modals.updateDevice}
+        onHide={() => toggleModal("updateDevice")}
       />
     </Container>
   );

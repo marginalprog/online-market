@@ -19,7 +19,7 @@ export const fetchTypes = async () => {
 export const fetchOneType = async id => {
   const { data } = await $host.get(`api/v1/type/${id}`);
 
-  return data.rows;
+  return data;
 };
 
 export const createBrand = async brand => {
@@ -32,16 +32,66 @@ export const createBrand = async brand => {
   return data;
 };
 
+export const deleteBrand = async id => {
+  if (!id) {
+    throw new Error("BrandId must be provided");
+  }
+
+  const { data } = await $authHost.delete(`api/v1/brand/${id}`);
+
+  return data;
+};
+
+export const deleteType = async id => {
+  if (!id) {
+    throw new Error("TypeId must be provided");
+  }
+
+  const { data } = await $authHost.delete(`api/v1/type/${id}`);
+
+  return data;
+};
+
+export const updateType = async (typeId, typeData) => {
+  if (!typeId || !typeData) {
+    throw new Error("Data and typeId must be provided");
+  }
+
+  const { data } = await $authHost.patch(`api/v1/type/${typeId}`, typeData);
+
+  return data;
+};
+
+export const deleteDevice = async id => {
+  if (!id) {
+    throw new Error("DeviceId must be provided");
+  }
+
+  const { data } = await $authHost.delete(`api/v1/device/${id}`);
+
+  return data;
+};
+
 export const fetchBrands = async () => {
   const { data } = await $host.get(`api/v1/brand`);
 
   return data.rows;
 };
 
+export const updateBrand = async (brandId, brandData) => {
+  if (!brandId || !brandData) {
+    throw new Error("Data and brandId must be provided");
+  }
+
+  const { data } = await $authHost.patch(`api/v1/brand/${brandId}`, brandData);
+
+  return data;
+};
+
 export const fetchOneBrand = async id => {
   const { data } = await $host.get(`api/v1/brand/${id}`);
 
-  return data.rows;
+  return data;
 };
 
 export const createDevice = async deviceData => {
@@ -50,6 +100,19 @@ export const createDevice = async deviceData => {
   }
 
   const { data } = await $authHost.post(`api/v1/device`, deviceData);
+
+  return data;
+};
+
+export const updateDevice = async (deviceId, deviceData) => {
+  if (!deviceId || !deviceData) {
+    throw new Error("Data and deviceId must be provided");
+  }
+
+  const { data } = await $authHost.patch(
+    `api/v1/device/${deviceId}`,
+    deviceData
+  );
 
   return data;
 };

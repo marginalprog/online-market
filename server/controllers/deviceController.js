@@ -4,7 +4,7 @@ const { buildFilters } = require('../utils/filters');
 const { Device, DeviceInfo } = require('../models/models');
 const ApiError = require('../error/ApiError');
 const { body, validationResult } = require('express-validator');
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 
 class DeviceController {
   async create(req, res, next) {
@@ -170,8 +170,7 @@ class DeviceController {
   async patch(req, res, next) {
     await Promise.all([
       body('name')
-        .notEmpty()
-        .withMessage('Field "name" is required')
+        .optional()
         .isString()
         .withMessage('Field "name" must be a string')
         .isLength({ max: 255 })
@@ -179,22 +178,19 @@ class DeviceController {
         .run(req),
 
       body('price')
-        .notEmpty()
-        .withMessage('Field "price" is required')
+        .optional()
         .isNumeric()
         .withMessage('Field "price" must be a numeric')
         .run(req),
 
       body('brandId')
-        .notEmpty()
-        .withMessage('Field "brandId" is required')
+        .optional()
         .isInt()
         .withMessage('Field "brandId" must be a integer')
         .run(req),
 
       body('typeId')
-        .notEmpty()
-        .withMessage('Field "typeId" is required')
+        .optional()
         .isInt()
         .withMessage('Field "typeId" must be a integer')
         .run(req),
@@ -225,8 +221,9 @@ class DeviceController {
     }
 
     const { id } = req.params;
+    const { info, ...updateData } = req.body;
+
     const device = await Device.findByPk(id);
-    const updateData = req.body;
 
     if (!device) {
       return next(ApiError.notFound('Type not found'));
@@ -237,9 +234,40 @@ class DeviceController {
     }
 
     try {
-      const updatedType = await device.update(updateData);
+      const updatedDevice = await device.update(updateData);
 
-      return res.json(updatedType);
+      if (info) {
+        const infoData = JSON.parse(info);
+
+        for (const item of infoData) {
+          if (item.id) {
+            await DeviceInfo.update(
+              { title: item.title, description: item.description },
+              { where: { id: item.id, deviceId: id } }
+            );
+          } else {
+            await DeviceInfo.create({
+              title: item.title,
+              description: item.description,
+              deviceId: id,
+            });
+          }
+        }
+
+        const existingInfoIds = infoData
+          .filter(item => item.id)
+          .map(item => item.id);
+        await DeviceInfo.destroy({
+          where: {
+            deviceId: id,
+            ...(existingInfoIds.length > 0 && {
+              id: { [Op.notIn]: existingInfoIds },
+            }),
+          },
+        });
+      }
+
+      return res.json(updatedDevice);
     } catch (error) {
       return next(ApiError.internal('Failed to update type', error.message));
     }

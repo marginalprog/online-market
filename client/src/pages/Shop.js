@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import TypeBar from "../components/TypeBar";
 import BrandBar from "../components/BrandBar";
@@ -10,20 +10,28 @@ import Pages from "../components/Pages";
 
 const Shop = observer(() => {
   const { device } = useContext(Context);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     fetchTypes().then(data => device.setTypes(data));
     fetchBrands().then(data => device.setBrands(data));
-    fetchDevices(null, null, 1, device.limit).then(data => {
-      device.setDevices(data.rows);
-      device.setTotalCount(data.count);
-    });
+    fetchDevices(null, null, 1, device.limit)
+      .then(data => {
+        device.setDevices(data.rows);
+        device.setTotalCount(data.count);
+      })
+      .finally(() => {
+        setTimeout(() => setLoading(false), 1000);
+      });
   }, []);
 
   useEffect(() => {
+    // setLoading(true);
     fetchDevices(
-      device.selectedType.id,
-      device.selectedBrand.id,
+      device.selectedType?.id,
+      device.selectedBrand?.id,
       device.page,
       device.limit
     ).then(data => {
@@ -31,6 +39,14 @@ const Shop = observer(() => {
       device.setTotalCount(data.count);
     });
   }, [device.page, device.selectedType, device.selectedBrand]);
+
+  if (loading) {
+    return (
+      <div className="jewish-loader-container">
+        <div className="jewish-loader"></div>
+      </div>
+    );
+  }
 
   return (
     <Container>

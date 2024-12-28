@@ -83,7 +83,7 @@ const DevicePage = () => {
               <Button
                 variant="outline-dark"
                 style={{ fontSize: 16 }}
-                onClick={handleAddToCart}
+                // onClick={}
               >
                 Оставить отзыв
               </Button>

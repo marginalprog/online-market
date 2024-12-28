@@ -9,6 +9,7 @@ import {
   fetchTypes
 } from "../../http/deviceApi";
 import ModalError from "./ModalError";
+import ModalInfo from "./ModalInfo";
 
 const CreateDevice = observer(({ show, onHide }) => {
   const { device } = useContext(Context);
@@ -19,6 +20,8 @@ const CreateDevice = observer(({ show, onHide }) => {
   const [info, setInfo] = useState([]);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showInfo, setShowInfo] = useState(false);
+  const [infoMessage, setInfoMessage] = useState("");
 
   useEffect(() => {
     fetchTypes().then(data => device.setTypes(data));
@@ -42,6 +45,31 @@ const CreateDevice = observer(({ show, onHide }) => {
     );
   };
 
+  const handleCloseError = () => setShowError(false);
+
+  const handleCloseInfo = () => {
+    onHide();
+    setShowInfo(false);
+  };
+
+  const handleCloseModal = () => {
+    clearModal();
+    onHide();
+  };
+
+  const clearModal = () => {
+    setName("");
+    setPrice("");
+    setInfo([]);
+    device.setSelectedType(null);
+    device.setSelectedBrand(null);
+  };
+
+  const selectFile = event => {
+    setFile(event.target.files[0]);
+    console.log(file);
+  };
+
   const addDevice = () => {
     if (!name || !price || !file) {
       setErrorMessage("Пожалуйста, заполните все представленные поля");
@@ -60,14 +88,23 @@ const CreateDevice = observer(({ show, onHide }) => {
 
     formData.append("info", JSON.stringify(info));
 
-    createDevice(formData).then(data => onHide());
-  };
-
-  const handleCloseError = () => setShowError(false);
-
-  const selectFile = event => {
-    setFile(event.target.files[0]);
-    console.log(file);
+    createDevice(formData)
+      .then(data => {
+        setInfoMessage(`Девайс "${name}" создан`);
+        setShowInfo(true);
+      })
+      .catch(error => {
+        console.log(error);
+        if (error.message.includes("400")) {
+          setErrorMessage(
+            `Слишком большая цена или название. Максимум 8 и 255 знаков`
+          );
+          setShowError(true);
+        } else {
+          setErrorMessage(`${error.message}`);
+          setShowError(true);
+        }
+      });
   };
 
   return (
@@ -79,7 +116,7 @@ const CreateDevice = observer(({ show, onHide }) => {
         <Form>
           <Dropdown className="d-flex justify-content-center">
             <Dropdown.Toggle variant={"outline-dark"}>
-              {device.selectedType.name || "Выберите тип"}
+              {device.selectedType?.name || "Выберите тип"}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {device.types.map(type => (
@@ -94,7 +131,7 @@ const CreateDevice = observer(({ show, onHide }) => {
           </Dropdown>
           <Dropdown className="d-flex justify-content-center mt-2 mb-2">
             <Dropdown.Toggle variant={"outline-dark"}>
-              {device.selectedBrand.name || "Выберите бренд"}
+              {device.selectedBrand?.name || "Выберите бренд"}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {device.brands.map(brand => (
@@ -121,6 +158,7 @@ const CreateDevice = observer(({ show, onHide }) => {
             className="mt-3"
             placeholder={"Введите стоимость устройства"}
             type="number"
+            step="0.01"
           />
           <Form.Control className="mt-3" type="file" onChange={selectFile} />
 
@@ -169,7 +207,7 @@ const CreateDevice = observer(({ show, onHide }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
+        <Button variant="secondary" onClick={handleCloseModal}>
           Закрыть
         </Button>
         <Button variant="dark" onClick={addDevice}>
@@ -181,6 +219,11 @@ const CreateDevice = observer(({ show, onHide }) => {
         show={showError}
         errorMessage={errorMessage}
         handleCloseError={handleCloseError}
+      />
+      <ModalInfo
+        show={showInfo}
+        infoMessage={infoMessage}
+        handleCloseInfo={handleCloseInfo}
       />
     </Modal>
   );
