@@ -45,18 +45,19 @@ const TypeBar = observer(() => {
       </div>
 
       <ListGroup className="mt-2 d-flex justify-content-center w-100">
-        {device.types.map(type => (
-          <ListGroup.Item
-            variant="light"
-            style={{ cursor: "pointer" }}
-            active={type.id === device.selectedType.id}
-            onClick={() => device.setSelectedType(type)}
-            key={type.id}
-            className="w-100"
-          >
-            {type.name}
-          </ListGroup.Item>
-        ))}
+        {device.types &&
+          device.types.map(type => (
+            <ListGroup.Item
+              variant="light"
+              style={{ cursor: "pointer" }}
+              active={type.id === device.selectedType?.id}
+              onClick={() => device.setSelectedType(type)}
+              key={type.id}
+              className="w-100"
+            >
+              {type.name}
+            </ListGroup.Item>
+          ))}
       </ListGroup>
     </Col>
   );

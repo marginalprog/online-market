@@ -9,7 +9,7 @@ export default class DeviceStore {
     this._selectedBrand = {};
     this._page = 1; // current page
     this._totalCount = 0; // available devices on request
-    this._limit = 3; // devices on page
+    this._limit = 10; // devices on page
     makeAutoObservable(this);
   }
 

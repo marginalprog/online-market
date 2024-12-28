@@ -145,8 +145,8 @@ CartDevice.belongsTo(Cart, { foreignKey: 'cartId', allowNull: false });
 CartDevice.hasOne(Device);
 Device.belongsTo(CartDevice);
 
-Device.hasMany(DeviceInfo, { as: 'info' });
-DeviceInfo.belongsTo(Device);
+Device.hasMany(DeviceInfo, { as: 'info', foreignKey: 'deviceId' });
+DeviceInfo.belongsTo(Device, { foreignKey: 'deviceId' });
 
 Type.hasMany(Device);
 Device.belongsTo(Type);

@@ -17,9 +17,12 @@
     "express-fileupload": "^1.5.1",
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
+    "openssl": "^2.0.0",
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.4",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
